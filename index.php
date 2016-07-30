@@ -85,7 +85,7 @@ Flight::route('POST /apply', function() {
 		$data = $conn->query("INSERT INTO players(name, contacts, notify, anonymous) VALUES($name, $contacts, $notify, $anonymous)");
 		
 		if (!$data) {
-			Flight::json(['status' => 'error', 'error' => 'query_failed', 'params' => $params]);
+			Flight::json(['status' => 'error', 'error' => 'query_failed', 'params' => $params, 'query' => "INSERT INTO players(name, contacts, notify, anonymous) VALUES($name, $contacts, $notify, $anonymous)"]);
 		} else {
 			Flight::json(['status' => 'ok', 'data' => intval($conn->lastInsertId())]);
 		}
