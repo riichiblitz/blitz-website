@@ -79,7 +79,7 @@ Flight::route('POST /apply', function() {
 		
 		$name = quote($params['name']);
 		$contacts = quote($params['contacts']);
-		$nofify = $params['notify'] ?: "NULL";
+		$notify = $params['notify'] ?: "NULL";
 		$anonymous = $params['anonymous'] ?: "NULL";
 		
 		$data = $conn->query("INSERT INTO players(name, contacts, notify, anonymous) VALUES($name, $contacts, $notify, $anonymous)");
