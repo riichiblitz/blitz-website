@@ -21,15 +21,15 @@ function quote($input) {
 	return $input ? "'$input'" : "NULL";
 }
 
-Flight::route('GET /info', function() {
+Flight::route('GET /api/info', function() {
         Flight::json(['status' => 'ok', 'data' => getallheaders()]);
 });
 
-Flight::route('GET /language', function() {
+Flight::route('GET /api/language', function() {
         Flight::json(['status' => 'ok', 'data' => explode(',', getallheaders()['Accept-Language'])]);
 });
 
-Flight::route('GET /status', function() {
+Flight::route('GET /api/status', function() {
         $conn = Flight::db();
         $data = $conn->query("SELECT status FROM params WHERE id=0");
         
@@ -42,7 +42,7 @@ Flight::route('GET /status', function() {
 		}
 });
 
-Flight::route('POST /status', function() {
+Flight::route('POST /api/status', function() {
 		$params = json_decode(file_get_contents("php://input"), true);
 		$status = quote($params['status']);
 		
@@ -55,7 +55,7 @@ Flight::route('POST /status', function() {
 		}
 });
 
-Flight::route('GET /players', function() {
+Flight::route('GET /api/players', function() {
         $conn = Flight::db();
         $data = $conn->query("SELECT name FROM players WHERE anonymous=0");
         
@@ -72,7 +72,7 @@ Flight::route('GET /players', function() {
 		}
 });
 
-Flight::route('POST /apply', function() {
+Flight::route('POST /api/apply', function() {
         $conn = Flight::db();
 		
         $params = json_decode(file_get_contents("php://input"), true);
