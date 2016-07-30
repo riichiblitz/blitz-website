@@ -1,0 +1,78 @@
+table {
+	width:auto;
+	table-layout:fixed;
+	table-layout: fixed;
+    margin-left:auto; 
+    margin-right:auto;
+	width:600px;
+}
+
+.prizes_table {
+	width:600px;
+	margin-bottom: 20px;
+}
+
+th {
+	padding-right:20px;
+	padding-left:20px;
+}
+
+.button {
+	cursor: pointer;
+	background-color: #B0EEB0;
+	display: inline-block;
+	padding-right:20px;
+	padding-left:20px;
+	padding-top:2px;
+	padding-bottom:2px;
+}
+
+#tenhou_nick {
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+#contacts {
+	width:450px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+.checkbox_label {
+	cursor: pointer;
+	margin-bottom: 7px;
+}
+
+.applications {
+	margin-top: 15px;
+}
+
+
+.register_form {
+	width:460px;
+	text-align:left;
+    margin-left:auto; 
+    margin-right:auto;
+	display: inline-block;
+}
+
+.applications_count {
+	font-size:200%;
+	margin:0px;
+}
+
+.applications_title {
+	margin:0px;
+}
+
+.applicant_names {
+	width: 400px;
+    margin-left:auto; 
+    margin-right:auto;
+	
+}
+
+body {
+	background-color: #E0FFE0;
+	text-align: center;
+}
