@@ -66,7 +66,7 @@ Flight::route('GET /players', function() {
 			if (!$count) {
 			    Flight::json(['status' => 'error', 'error' => 'query_failed']);
 			} else {
-			    Flight::json(['status' => 'ok','data' => ['count' => $count->fetch()['count'], 'names' => $data->fetchAll()]]);
+			    Flight::json(['status' => 'ok','data' => ['count' => $count->fetch()->count, 'names' => $data->fetchAll()]]);
 			}
 		}
 });
