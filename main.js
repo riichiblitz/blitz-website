@@ -26,7 +26,7 @@ function setRegStatus() {
 
 function updateApplications() {
 	$.ajax({
-        url: "https://blitz-riichi.rhcloud.com/api/players"
+        url: "../api/players"
     }).done(function(data) {
 		if (data.status === "ok") {			
 			$('.applications_count').text(data.data.count);
@@ -46,7 +46,7 @@ function updateApplications() {
 
 function updateStatus() {
 	$.ajax({
-        url: "https://blitz-riichi.rhcloud.com/api/status"
+        url: "../api/status"
     }).done(function(data) {
 		if (data.status === "ok") {			
 			if (status !== data.data.status) {
@@ -70,7 +70,7 @@ function apply() {
 	$.ajax({
 		type: "POST",
 		data: JSON.stringify({ name: $('#tenhou_nick').val(), contacts: $('#contacts').val(), notify: $('#notify').is(':checked') ? 1 : 0, anonymous: $('#anonymous').is(':checked') ? 1 : 0 }),
-        url: "https://blitz-riichi.rhcloud.com/api/apply"
+        url: "../api/apply"
     }).done(function(data) {
 		if (data.status === "ok") {
 			$(".registration_message_ok").show(500);

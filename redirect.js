@@ -3,7 +3,7 @@ var retries = 0;
 
 function poll() {
 	$.ajax({
-        url: "https://blitz-riichi.rhcloud.com/api/language"
+        url: "api/language"
     }).done(function(data) {
 		if (data.data.length > 0 && data.data[0].includes("ru")) {
 			window.location = "ru/index.html";

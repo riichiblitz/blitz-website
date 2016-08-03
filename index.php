@@ -12,9 +12,9 @@ $db_name = getenv('OPENSHIFT_GEAR_NAME');
 
 Flight::register('db', 'PDO', array("mysql:host=$dbhost;port=$dbport;dbname=$db_name", $dbusername, $dbpassword), function($db) {
         $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-		$db->query ("set character_set_client='utf8'"); 
+		$db->query ("set character_set_client='utf8'");
         $db->query ("set character_set_results='utf8'");
-        $db->query ("set collation_connection='utf8_general_ci'"); 
+        $db->query ("set collation_connection='utf8_general_ci'");
 });
 
 function quote($input) {
@@ -32,9 +32,9 @@ Flight::route('GET /api/language', function() {
 Flight::route('GET /api/status', function() {
         $conn = Flight::db();
         $data = $conn->query("SELECT status FROM params WHERE id=0");
-        
+
 		if (!$data) {
-			Flight::json(['status' => 'error', 'error' => 'query_failed']);
+			Flight::json(['status' => 'error', 'error' => 'query_failed', 'dbhost' => getenv('JAVA_HOME')]);
 		} elseif ($data->rowCount() == 0) {
 			Flight::json(['status' => 'error', 'error' => 'not_found']);
 		} else {
@@ -42,12 +42,22 @@ Flight::route('GET /api/status', function() {
 		}
 });
 
+function isForbidden($params) {
+  if (!isset($params['payload']) || $params['payload'] !== 'matte_is_the_greatest') {
+    Flight::json(['status' => 'error', 'error' => 'forbidden']);
+    return true;
+  }
+  return false;
+}
+
 Flight::route('POST /api/status', function() {
 		$params = json_decode(file_get_contents("php://input"), true);
+
+    if (isForbidden($params)) return;
+
 		$status = quote($params['status']);
-		
-		$data = Flight::db()->query("UPDATE params SET status=$status WHERE id=0");
-		
+    $data = Flight::db()->query("UPDATE params SET status=$status WHERE id=0");
+
 		if (!$data) {
 			Flight::json(['status' => 'error', 'error' => 'query_failed']);
 		} else {
@@ -58,7 +68,7 @@ Flight::route('POST /api/status', function() {
 Flight::route('GET /api/players', function() {
         $conn = Flight::db();
         $data = $conn->query("SELECT name FROM players WHERE anonymous=0");
-        
+
 		if (!$data) {
 			Flight::json(['status' => 'error', 'error' => 'query_failed']);
 		} else {
@@ -74,16 +84,16 @@ Flight::route('GET /api/players', function() {
 
 Flight::route('POST /api/apply', function() {
         $conn = Flight::db();
-		
+
         $params = json_decode(file_get_contents("php://input"), true);
-		
+
 		$name = quote($params['name']);
 		$contacts = quote($params['contacts']);
 		$notify = $params['notify'];
 		$anonymous = $params['anonymous'];
-		
+
 		$data = $conn->query("INSERT INTO players(name, contacts, notify, anonymous) VALUES($name, $contacts, $notify, $anonymous)");
-		
+
 		if (!$data) {
 			Flight::json(['status' => 'error', 'error' => 'query_failed']);
 		} else {
