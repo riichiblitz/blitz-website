@@ -1,6 +1,7 @@
 
 var delay = 5000;
 var status = "";
+var knownStatuses = ["reg"];
 
 function setNewStatus() {
 	$(".info").show(500);
@@ -14,6 +15,7 @@ function setNewStatus() {
 }
 
 function setRegStatus() {
+	delay = 20000;
 	$(".info").show(500);
 	$("#open_form").show(500);
 	$(".register_form").hide(500);
@@ -28,7 +30,7 @@ function updateApplications() {
 	$.ajax({
         url: "../api/players"
     }).done(function(data) {
-		if (data.status === "ok") {			
+		if (data.status === "ok") {
 			$('.applications_count').text(data.data.count);
 			$('.applicant_names').text("");
 			if (data.data.names.length > 0) {
@@ -48,12 +50,16 @@ function updateStatus() {
 	$.ajax({
         url: "../api/status"
     }).done(function(data) {
-		if (data.status === "ok") {			
+		if (data.status === "ok") {
 			if (status !== data.data.status) {
 				status = data.data.status;
-				switch (status) {
-					case "reg": setRegStatus(); break;
-					case "new": setNewStatus(); break;
+				if (!knownStatuses.includes(status)) {
+					window.location.reload(false); 
+				} else {
+					switch (status) {
+						case "reg": setRegStatus(); break;
+						case "new": setNewStatus(); break;
+					}
 				}
 			} else {
 				switch (status) {
@@ -84,7 +90,7 @@ function apply() {
 }
 
 $(document).ready(function() {
-				
+
 	$(".info").hide(0);
 	$("#open_form").hide(0);
 	$(".register_form").hide(0);
@@ -93,14 +99,14 @@ $(document).ready(function() {
 	$(".registration_end").hide(0);
 	$(".registration_message_ok").hide(0);
 	$(".registration_message_error").hide(0);
-	
-	
+
+
 	$("#open_form").click(function(){
 		$("#open_form").hide(500);
 		$(".register_form").show(500);
 	});
-	
+
 	$("#submit_form").click(apply);
-	
+
 	updateStatus();
 });

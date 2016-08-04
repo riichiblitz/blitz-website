@@ -12,7 +12,7 @@ $db_name = getenv('OPENSHIFT_GEAR_NAME');
 
 Flight::register('db', 'PDO', array("mysql:host=$dbhost;port=$dbport;dbname=$db_name", $dbusername, $dbpassword), function($db) {
         $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-		$db->query ("set character_set_client='utf8'");
+		    $db->query ("set character_set_client='utf8'");
         $db->query ("set character_set_results='utf8'");
         $db->query ("set collation_connection='utf8_general_ci'");
 });
