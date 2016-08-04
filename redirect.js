@@ -2,6 +2,7 @@ var delays = [1000, 3000, 5000];
 var retries = 0;
 
 function poll() {
+	$('.message').text("");
 	$.ajax({
         url: "api/language"
     }).done(function(data) {
