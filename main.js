@@ -15,7 +15,7 @@ function setNewStatus() {
 }
 
 function setRegStatus() {
-	delay = 1000;
+	delay = 20000;
 	$(".info").show(500);
 	$("#open_form").show(500);
 	$(".register_form").hide(500);
