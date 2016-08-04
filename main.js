@@ -54,7 +54,7 @@ function updateStatus() {
 			if (status !== data.data.status) {
 				status = data.data.status;
 				if (!knownStatuses.includes(status)) {
-					window.location.reload(false); 
+					window.location.reload(true); 
 				} else {
 					switch (status) {
 						case "reg": setRegStatus(); break;
