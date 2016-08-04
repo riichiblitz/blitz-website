@@ -15,7 +15,7 @@ function setNewStatus() {
 }
 
 function setRegStatus() {
-	delay = 20000;
+	delay = 1000;
 	$(".info").show(500);
 	$("#open_form").show(500);
 	$(".register_form").hide(500);
@@ -54,7 +54,7 @@ function updateStatus() {
 			if (status !== data.data.status) {
 				status = data.data.status;
 				if (!knownStatuses.includes(status)) {
-					window.location.reload(true); 
+					window.location.reload(true);
 				} else {
 					switch (status) {
 						case "reg": setRegStatus(); break;
