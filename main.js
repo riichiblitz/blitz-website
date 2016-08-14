@@ -1,18 +1,7 @@
 
 var delay = 5000;
 var status = "";
-var knownStatuses = ["reg"];
-
-function setNewStatus() {
-	$(".info").show(500);
-	$("#open_form").hide(500);
-	$(".register_form").hide(500);
-	$(".footer").show(500);
-	$(".registration_end").show(500);
-	$(".registration_message_ok").hide(500);
-	$(".registration_message_error").hide(500);
-	updateApplications();
-}
+var knownStatuses = ["reg", "confirm"];
 
 function setRegStatus() {
 	delay = 20000;
@@ -24,6 +13,17 @@ function setRegStatus() {
 	$(".registration_message_ok").hide(500);
 	$(".registration_message_error").hide(500);
 	updateApplications();
+}
+
+function setConfirmStatus() {
+	delay = 5000;
+	$(".info").hide(500);
+	$("#open_form").hide(500);
+	$(".register_form").hide(500);
+	$(".footer").show(500);
+	$(".registration_end").show(500);
+	$(".registration_message_ok").hide(500);
+	$(".registration_message_error").hide(500);
 }
 
 function updateApplications() {
@@ -46,6 +46,23 @@ function updateApplications() {
     });
 }
 
+function updateConfirmations() {
+	$.ajax({
+        url: "../api/confirmations"
+    }).done(function(data) {
+		if (data.status === "ok") {
+			$('.confirmations tr').not(":first").remove();
+			var html = '';
+			if (data.data.length > 0) {
+				data.data.forEach(function(item, i, arr) {
+					html += '<tr><td>' + item[0] + '</td><td>' + item[1] + '</td><td>' + item[2] + '</td></tr>';
+				});
+			}
+			$('.confirmations tbody').append(html);
+		}
+    });
+}
+
 function updateStatus() {
 	$.ajax({
         url: "../api/status"
@@ -58,12 +75,13 @@ function updateStatus() {
 				} else {
 					switch (status) {
 						case "reg": setRegStatus(); break;
-						case "new": setNewStatus(); break;
+						case "confirm": setConfirmStatus(); break;
 					}
 				}
 			} else {
 				switch (status) {
 					case "reg": updateApplications(); break;
+					case "confirm": updateConfirmations(); break;
 				}
 			}
 		}
@@ -99,6 +117,7 @@ $(document).ready(function() {
 	$(".registration_end").hide(0);
 	$(".registration_message_ok").hide(0);
 	$(".registration_message_error").hide(0);
+	$('.confirmations').hide(0);
 
 
 	$("#open_form").click(function(){
