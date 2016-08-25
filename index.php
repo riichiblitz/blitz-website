@@ -127,12 +127,12 @@ Flight::route('POST /api/players', function() {
 
 Flight::route('GET /api/results', function() {
         $conn = Flight::db();
-        $data = $conn->query("SELECT player, state, score, place FROM results");
+        $data = $conn->query("SELECT id, player, state, score, place FROM results ORDER BY id ASC");
 
 		if (!$data) {
 			Flight::json(['status' => 'error', 'error' => 'query_failed']);
 		} else {
-      $results = array_map(function($item) { return [$item->player, $item->state, $item->place, $item->score]; }, $data->fetchAll());
+      $results = array_map(function($item) { return [$item->player, $item->state, $item->place, $item->score, $item->id]; }, $data->fetchAll());
       Flight::json(['status' => 'ok','data' => $results]);
 		}
 });
@@ -144,10 +144,11 @@ Flight::route('POST /api/result', function() {
   $board = $params['board'];
   $player = quote($params['player']);
   $score = $params['score'];
+  $points = $params['points'];
   $place = $params['place'];
 
   $conn = Flight::db();
-  $sql = "UPDATE results SET score=$score,place=$place WHERE round=$round AND board=$board AND player=$player";
+  $sql = "UPDATE results SET score=$score,points=$points,place=$place WHERE round=$round AND board=$board AND player=$player";
 	$data = $conn->query($sql);
 
 	if (!$data) {
@@ -174,7 +175,8 @@ Flight::route('POST /api/results', function() {
       $name = $results[$i]['name'];
       $score = $results[$i]['score'];
       $place = $results[$i]['place'];
-      $sql = $sql."UPDATE results SET state='idle',score=$score,place=$place WHERE round=$round AND player='$name';";
+      $points = $results[$i]['points'];
+      $sql = $sql."UPDATE results SET state='idle',score=$score,points=$points,place=$place WHERE round=$round AND player='$name';";
     }
 
     $data = $conn->query($sql);
@@ -286,6 +288,31 @@ Flight::route('GET /api/confirmations', function() {
 		}
 });
 
+Flight::route('POST /api/updateConfirmations', function() {
+  $params = json_decode(file_get_contents("php://input"), true);
+  if (isForbidden($params)) return;
+  $players = $params['data'];
+  $caseQuery = "case";
+
+  for ($i = 0; $i < count($players); $i++) {
+    $value = $players[$i];
+    $caseQuery = $caseQuery." when name = '$value' then 1";
+  }
+
+  $caseQuery = $caseQuery." else 0 end";
+
+  $conn = Flight::db();
+  $sql = "UPDATE confirms SET idle=($caseQuery) WHERE 1";
+	$data = $conn->query($sql);
+
+	if (!$data) {
+		Flight::json(['status' => 'error', 'error' => 'query_failed', 'query' => $sql]);
+	} else {
+    Flight::json(['status' => 'ok']);
+	}
+
+});
+
 Flight::route('POST /api/confirmations', function() {
   $params = json_decode(file_get_contents("php://input"), true);
   if (isForbidden($params)) return;
@@ -309,6 +336,17 @@ Flight::route('POST /api/confirmations', function() {
 	}
 });
 
+Flight::route('GET /api/totals', function() {
+        $conn = Flight::db();
+        $data = $conn->query("SELECT player, SUM(points) total FROM results GROUP BY player ORDER BY total DESC");
+
+		if (!$data) {
+			Flight::json(['status' => 'error', 'error' => 'query_failed']);
+		} else {
+      $results = array_map(function($item) { return [$item->player, $item->total]; }, $data->fetchAll());
+      Flight::json(['status' => 'ok','data' => $results]);
+		}
+});
 
 Flight::route('POST /api/apply', function() {
         $conn = Flight::db();

@@ -3,5 +3,6 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^api(.*)$ index.php [QSA,L]
 RewriteRule ^ru/reglament(.*)$ ru/reglament.html [QSA,L]
+RewriteRule ^en/reglament(.*)$ en/reglament.html [QSA,L]
 RewriteRule ^ru(.*)$ ru/index.html [QSA,L]
 RewriteRule ^en(.*)$ en/index.html [QSA,L]

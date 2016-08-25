@@ -5,6 +5,7 @@ var knownStatuses = ["reg", "confirm"];
 
 function setRegStatus() {
 	delay = 20000;
+	$(".common").show(500);
 	$(".info").show(500);
 	$("#open_form").show(500);
 	$(".register_form").hide(500);
@@ -17,13 +18,15 @@ function setRegStatus() {
 
 function setConfirmStatus() {
 	delay = 5000;
-	$(".info").hide(500);
-	$("#open_form").hide(500);
-	$(".register_form").hide(500);
-	$(".footer").show(500);
-	$(".registration_end").show(500);
-	$(".registration_message_ok").hide(500);
-	$(".registration_message_error").hide(500);
+	$(".common").hide(500);
+	$(".reg").hide(500);
+	// $(".info").hide(500);
+	// $("#open_form").hide(500);
+	// $(".register_form").hide(500);
+	// $(".footer").show(500);
+	// $(".registration_end").show(500);
+	// $(".registration_message_ok").hide(500);
+	// $(".registration_message_error").hide(500);
 }
 
 function updateApplications() {
@@ -108,16 +111,18 @@ function apply() {
 }
 
 $(document).ready(function() {
+	$(".reg").hide(0);
+	$(".common").hide(0);
 
-	$(".info").hide(0);
-	$("#open_form").hide(0);
-	$(".register_form").hide(0);
-	$(".applications").hide(0);
-	$(".footer").hide(0);
-	$(".registration_end").hide(0);
-	$(".registration_message_ok").hide(0);
-	$(".registration_message_error").hide(0);
-	$('.confirmations').hide(0);
+	// $(".info").hide(0);
+	// $("#open_form").hide(0);
+	// $(".register_form").hide(0);
+	// $(".applications").hide(0);
+	// $(".footer").hide(0);
+	// $(".registration_end").hide(0);
+	// $(".registration_message_ok").hide(0);
+	// $(".registration_message_error").hide(0);
+	 $('.confirmations').hide(0);
 
 
 	$("#open_form").click(function(){
