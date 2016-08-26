@@ -1,8 +1,7 @@
-table {
+.info_table {
 	width:auto;
 	table-layout:fixed;
-	table-layout: fixed;
-    margin-left:auto; 
+    margin-left:auto;
     margin-right:auto;
 	width:600px;
 }
@@ -35,12 +34,12 @@ th {
 	padding-bottom:2px;
 }
 
-#tenhou_nick {
+#tenhou_nick,#who_am_i {
 	padding-top: 2px;
 	padding-bottom: 2px;
 }
 
-#contacts {
+#contacts,#message {
 	width:450px;
 	padding-top: 2px;
 	padding-bottom: 2px;
@@ -56,29 +55,42 @@ th {
 }
 
 
-.register_form {
+.register_form,.report_form {
 	width:460px;
 	text-align:left;
-    margin-left:auto; 
+    margin-left:auto;
     margin-right:auto;
 	display: inline-block;
 }
 
-.applications_count {
+.applications_count,.confirmations_count {
 	font-size:200%;
 	margin:0px;
 }
 
-.applications_title {
+.applications_title,.confirmations_title {
 	font-size:100%;
 	margin:0px;
 }
 
-.applicant_names {
+.applicant_names,.confirmations_names {
 	width: 400px;
-    margin-left:auto; 
+    margin-left:auto;
     margin-right:auto;
-	
+
+}
+
+.rounds_table {
+	table-layout:fixed;
+    margin-left:auto;
+    margin-right:auto;
+	width:800px;
+}
+
+.round_table {
+	text-align: center;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 body {
