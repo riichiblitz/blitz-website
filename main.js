@@ -272,6 +272,7 @@ $(document).ready(function() {
 		$(".message_ok").hide(500);
 	});
 
+	$("#submit_form").click(apply);
 	$("#submit_report").click(report);
 
 	updateStatus();
