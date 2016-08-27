@@ -1,21 +1,19 @@
 
 var delay = 5000;
-var status = "";
-var knownStatuses = ["reg", "confirm", "pause", "play", "end"];
-
-var maxRounds = 2;
-var playerPerTable = 4;
 
 function setRegStatus() {
 	delay = 20000;
+  $(".reg").show(500);
 	$(".confirm").hide(500);
 	$('.results_table').hide(0);
+	$(".results").hide(0);
+	$(".pause").hide(0);
 	//$(".common").show(500);
 	$(".info").show(500);
 	$("#open_form").show(500);
 	$(".register_form").hide(500);
 	$(".footer").show(500);
-	$(".registration_end").hide(500);
+	$(".registration_end").show(500);
 	$(".registration_message_ok").hide(500);
 	$(".registration_message_error").hide(500);
 	$(".report_form").hide(0);
@@ -26,8 +24,11 @@ function setRegStatus() {
 
 function setConfirmStatus() {
 	delay = 5000;
+	$(".reg").hide(500);
 	$(".common").show(0);
 	$('.results_table').hide(0);
+	$(".results").hide(0);
+	$(".pause").hide(0);
 	updateConfirmations();
 	$(".info").hide(500);
 	$("#open_form").hide(500);
@@ -44,21 +45,10 @@ function setConfirmStatus() {
 	$(".end").hide(0);
 }
 
-function setRunningStatus() {
-	delay = 10000;
-	$(".results_table").show(500);
-	$(".confirm").hide(0);
-	$(".reg").hide(0);
-	$(".common").show(0);
-	$(".lobby").show(0);
-	$(".report_form").hide(0);
-	$(".message_ok").hide(0);
-	$(".end").hide(0);
-	updateResults();
-}
-
 function setEndStatus() {
 	delay = 1000000000;
+	$(".results").hide(0);
+	$(".pause").hide(0);
 $(".common").show(0);
 $(".results_table").show(500);
 $(".confirm").hide(0);
@@ -108,53 +98,6 @@ function updateConfirmations() {
 	});
 }
 
-function updateResults() {
-	$.ajax({
-		url: "../api/results"
-	}).done(function(data) {
-		if (data.status === "ok") {
-			$('.results_table tr').remove();
-			//$item->player, $item->state, $item->place, $item->score, $item->id
-			var playersPerRound = data.data.length / maxRounds;
-			var html = "<tr>";
-			for (var i = 0; i < maxRounds; i++) {
-				html+="<td><table class=\"round_table\"><tr><td>";
-				html+=(i+1);
-			  html+="</td></tr>";
-				console.log(playersPerRound);
-				for (var j = 0; j < playersPerRound; j+=playerPerTable) {
-					html+="<tr><td><table border=\"1\">";
-					for (var k = 0; k < playerPerTable; k++) {
-						html+="<tr>";
-						if (k == 0) {
-							html+="<td rowspan=\"5\">1</td>";
-						}
-						html+="<td>"+(k+1)+"</td><td>";
-						var values = data.data[i*playersPerRound + j*playerPerTable + k];
-						var name = values[0];
-						var state = values[1];
-						var score = values[3];
-						if (state == "no") {
-							html += "<font color=\"#FF0000\">"
-						}
-						html += name;
-						if (state == "no") {
-							html += "</font>"
-						}
-						html+="</td><td>" + (score == null ? "—" : score) + "</td>";
-						html+="</tr>";
-					}
-					html+="<tr><td colspan=\"3\">No replay</td></tr>";
-					html+="</table></td></tr>";
-				}
-				html+="</table></td>";
-			}
-			html+="</tr>";
-			console.error(html);
-			$(".results_table > tbody").append(html);
-		}
-	});
-}
 
 function updateTotals() {
 	$.ajax({
@@ -162,16 +105,18 @@ function updateTotals() {
 	}).done(function(data) {
 		if (data.status === "ok") {
 			$('.results_table tr').remove();
-			//$item->player, $item->score
+			//$item->player, $item->total,  $item->score, $item->place / $maxRounds
 			var playersPerRound = data.data.length / maxRounds;
-			var html = "<tr><td><table class=\"round_table\">";
+			var html = "<tr><td><table class=\"round_table\" border=\"1\">";
 			for (var i = 0; i < data.data.length; i++) {
 				var values = data.data[i];
 				var name = values[0];
-				var score = values[1];
+				var total = values[1];
+				var score = values[2];
+				var place = values[3];
 				html+="<tr><td>";
 				html+=(i+1);
-			  html+="</td><td>" + name + "</td><td>" + score + "</td></tr>";
+			  html+="</td><td>" + name + "</td><td>" + total + "</td><td>" + score + "</td><td>" + place + "</td></tr>";
 			}
 			html+="</table></td></tr>";
 			console.error(html);
@@ -187,6 +132,8 @@ function updateStatus() {
 		if (data.status === "ok") {
 			if (status !== data.data.status) {
 				status = data.data.status;
+				nextTime = data.data.next;
+				round = data.data.round;
 				if (!knownStatuses.includes(status)) {
 					window.location.reload(true);
 				} else {
@@ -246,6 +193,7 @@ function report() {
 $(document).ready(function() {
 	$(".reg").hide(0);
 	$(".confirm").hide(0);
+	$(".results").hide(0);
 	//$(".common").hide(0);
 	$(".report_form").hide(0);
 

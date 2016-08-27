@@ -7,14 +7,14 @@
   <title>Летний риичи-блиц 2016</title>
   <link rel="stylesheet" type="text/css" href="../main.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="../results.js"></script>
+  <script src="../totals.js"></script>
   <script src="../main.js"></script>
 </head>
 
 <body>
 
   <h1>Летний риичи-блиц 2016</h1>
-
-
 
   <div class="reg info">
     <p class="rules">четыре ханчана, три акадоры, танъяо можно открывать</p>
@@ -40,30 +40,11 @@
 
   <a class="common" href="reglament.html"><p>Полный регламент</p></a>
   <br/>
-  <p class="confirm registration_end">Регистрация окончена</p>
+  <p class="reg registration_end">Регистрация окончена</p>
+  <p class="reg">Турнир скоро начнётся</p>
   <p class="confirm">Турнир начнётся через несколько минут</p>
+  <p class="results pause">Перерыв. Следующий тур начнётся в <a class="next_time"></a></p>
   <p class="confirm lobby">Ожидаем участников в лобби <a target="_blank" href="http://tenhou.net/0/?C41190514">C41190514</a></p>
-
-  <p class="reg registration_message_ok">Заявка успешно отправлена!</p>
-  <p class="reg registration_message_error">Не удалось отправить заявку. Возможно, этот ник уже использован.</p>
-
-  <p class="reg button" id="open_form">Подать заявку</p>
-  <br/>
-  <div class="reg register_form">
-    <label>Ник на tenhou.net:</label><br/>
-    <input type="text" id="tenhou_nick"/><br/>
-    <label>Контактные данные (заполните, если собираетесь победить):</label><br/>
-    <input type="text" id="contacts"/><br/>
-    <label class="checkbox_label"><input type="checkbox" id="notify"/> напомнить мне за сутки до начала турнира</label><br/>
-    <label class="checkbox_label"><input type="checkbox" id="anonymous"/> спрятать мой ник из всех списков до начала турнира</label><br/>
-    <p class="button" id = "submit_form">Отправить заявку</p><br/>
-  </div>
-
-  <div class="reg applications">
-    <p class="applications_title">Подано заявок:</p>
-    <p class="applications_count"></p>
-    <p class="applicant_names"></p>
-  </div>
 
   <div class="confirm confirmations">
     <p class="confirmations_title">Подтверждено игроков:</p>
@@ -71,12 +52,26 @@
     <p class="confirmations_names"></p>
   </div>
 
-  <p class="end">Поздравляем победителей!</p>
+    <a class="end" href="results.html"><p>Результаты игр</p></a>
+    <a class="results" href="totals.html"><p>Промежуточные результаты турнира</p></a>
 
-  <table class="info_table results_table">
+  <p class="end">Поздравляем победителей!</p>
+  <p class="end">В таблице: место в турнире, ник, турнирные очки, сумма игровых очков, среднее игровое место</p>
+
+  <p class="results"><a class="button" id="perform_filter">Показывать только игры игрока:</a><input type="text" id="filter"/></p>
+
+  <table class="results_table">
     <tbody>
   </tbody>
   </table>
+
+  <p class="results"><a class="button" id="send_replay">Отправить реплей:</a><input type="text" id="replay"/></p>
+
+  <div class="reg applications">
+    <p class="applications_title">Подано заявок:</p>
+    <p class="applications_count"></p>
+    <p class="applicant_names"></p>
+  </div>
 
   <br/><br/>
 

@@ -7,6 +7,7 @@
   <title>Summer riichi-blitz 2016</title>
   <link rel="stylesheet" type="text/css" href="../main.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="../results.js"></script>
   <script src="../main.js"></script>
 </head>
 
@@ -14,10 +15,10 @@
 
   <h1>Summer riichi-blitz 2016</h1>
 
-  <div class="common info">
+  <div class="reg info">
     <p class="rules">four hanchans, three akadoras, open tanyao allowed</p>
     <p class="date">august 27</p>
-    <table class="time_table">
+    <table class="time_table info_table">
       <tr>
         <td>EDT</td> <td>UTC/GMT</td> <td>MSK</td> <td>NOVST</td> <td>JST</td>
       </tr>
@@ -26,7 +27,7 @@
       </tr>
     </table>
     <p class="prize">prize fund: $75</p>
-    <table class="prizes_table">
+    <table class="prizes_table info_table">
       <tr>
         <td>1st place</td> <td>2nd place</td> <td>3rd place</td>
       </tr>
@@ -39,21 +40,31 @@
   <a class="common" href="reglament.html"><p>Complete regulations</p></a>
   <br/>
   <p class="reg registration_end">Registration is over</p>
+  <p class="reg">Tournament will be startes soon</p>
+  <p class="confirm">Tournament will start in a minutes</p>
+  <p class="pause">Break. Next round at <a class="next_time"></a></p>
+  <p class="confirm lobby">Players are awaited in lobby <a target="_blank" href="http://tenhou.net/0/?C41190514">C41190514</a></p>
 
-  <p class="reg registration_message_ok">Successfuly applied!</p>
-  <p class="reg registration_message_error">Could not send the application. Maybe the nickname is already in use.</p>
-
-  <p class="reg button" id="open_form">Apply</p>
-  <br/>
-  <div class="reg register_form">
-    <label>Nickname on tenhou.net:</label><br/>
-    <input type="text" id="tenhou_nick"/><br/>
-    <label>Contacts (fill if you are planning to win):</label><br/>
-    <input type="text" id="contacts"/><br/>
-    <label class="checkbox_label"><input type="checkbox" id="notify"/> remind me the day before the tournament</label><br/>
-    <label class="checkbox_label"><input type="checkbox" id="anonymous"/> hide my nickname until the tournament starts</label><br/>
-    <p class="button" id = "submit_form">Send application</p><br/>
+  <div class="confirm confirmations">
+    <p class="confirmations_title">Confirmed players:</p>
+    <p class="confirmations_count"></p>
+    <p class="confirmations_names"></p>
   </div>
+
+    <a class="end" href="results.html"><p>Game results</p></a>
+    <a class="results" href="totals.html"><p>Current tournament results</p></a>
+
+  <p class="end">Congratulations to the winners!</p>
+  <p class="end">In total table: place in tournament, nickname, tournament poins, sum of game points, mean place</p>
+
+  <p class="results"><a class="button" id="perform_filter">Show games of player:</a><input type="text" id="filter"/></p>
+
+  <table class="results_table">
+    <tbody>
+  </tbody>
+  </table>
+
+  <p class="results"><a class="button" id="send_replay">Send replay:</a><input type="text" id="replay"/></p>
 
   <div class="reg applications">
     <p class="applications_title">Applications:</p>
@@ -62,6 +73,17 @@
   </div>
 
   <br/><br/>
+
+  <p class="common">Something went wroung? <a class="button" id="open_report">Report</a></p>
+  <p class="common message_ok">Message was successfully sent!</p>
+  <div class="common report_form">
+    <label>Introduce yourself (not necessary):</label><br/>
+    <input type="text" id="who_am_i"/><br/>
+    <label>What went wrong?</label><br/>
+    <input type="text" id="message"/><br/>
+    <p class="button" id = "submit_report">Send report</p><br/>
+  </div>
+
   <div class="common footer">
 
     <p>Any questions or ideas? matteplaysmahjong@gmail.com</p>
