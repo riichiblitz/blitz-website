@@ -45,6 +45,13 @@ Flight::route('GET /api/status', function() {
   }
 });
 
+function isForbidden2($params) {
+  if (!isset($params['payload']) || $params['payload'] !== 'matte_is_the_greatest') {
+    return true;
+  }
+  return false;
+}
+
 function isForbidden($params) {
   if (!isset($params['payload']) || $params['payload'] !== 'matte_is_the_greatest') {
     Flight::json(['status' => 'error', 'error' => 'forbidden']);
@@ -409,7 +416,7 @@ Flight::route('POST /api/replay', function() {
   $conn = Flight::db();
 
   $params = json_decode(file_get_contents("php://input"), true);
-  if (isForbidden($params)) {
+  if (isForbidden2($params)) {
     $url = quote($params['url']);
 
     $data = $conn->query("INSERT INTO replays(url) VALUES($url)");
