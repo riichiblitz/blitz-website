@@ -372,6 +372,7 @@ Flight::route('POST /api/apply', function() {
   $conn = Flight::db();
 
   $params = json_decode(file_get_contents("php://input"), true);
+  if (isForbidden($params)) return;
 
   $name = quote($params['name']);
   $contacts = quote($params['contacts']);
@@ -422,7 +423,7 @@ Flight::route('POST /api/replay', function() {
     $url = quote($params['url']);
     $round = $params['round'];
     $board = $params['board'];
-    
+
     $data = Flight::db()->query("UPDATE results SET url=$url WHERE round=$round AND board=$board");
 
     if (!$data) {
