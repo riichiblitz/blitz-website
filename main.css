@@ -26,7 +26,7 @@ th {
 
 .button {
 	cursor: pointer;
-	background-color: #B0EEB0;
+	background-color: #EEEE90;
 	display: inline-block;
 	padding-right:20px;
 	padding-left:20px;
@@ -41,12 +41,6 @@ th {
 
 #contacts,#message {
 	width:450px;
-	padding-top: 2px;
-	padding-bottom: 2px;
-}
-
-#replay {
-	width:350px;
 	padding-top: 2px;
 	padding-bottom: 2px;
 }
@@ -86,31 +80,7 @@ th {
 
 }
 
-.results_table {
-	width:1000px;
-	table-layout:fixed;
-    margin-left:auto;
-    margin-right:auto;
-}
-
-.rounds_table {
-	table-layout:fixed;
-    margin-left:auto;
-    margin-right:auto;
-	width:auto;
-}
-
-.round_table td {
-	padding: 5px;
-}
-
-.round_table {
-	text-align: center;
-    margin-left:auto;
-    margin-right:auto;
-}
-
 body {
-	background-color: #E0FFE0;
+	background-color: #FFFFE0;
 	text-align: center;
 }

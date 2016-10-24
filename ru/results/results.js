@@ -42,7 +42,7 @@ function setRunningStatus() {
 
 function updateResults() {
   $.ajax({
-    url: "../api/results"
+    url: "results.json"
   }).done(function(data) {
     if (data.status === "ok") {
       $('.results_table tr').remove();
