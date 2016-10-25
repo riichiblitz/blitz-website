@@ -327,11 +327,11 @@ Flight::route('POST /api/apply', function() {
   $notify = $params['notify'];
   $anonymous = $params['anonymous'];
   $news = $params['news'];
-  $query = "INSERT INTO registrations(name, contacts, notify, anonymous, news) VALUES($name, $contacts, $notify, $anonymous, $news)";
-  $data = $conn->query("INSERT INTO registrations(name, contacts, notify, anonymous, news) VALUES($name, $contacts, $notify, $anonymous, $news)");
+  $lang = quote(getallheaders()['Accept-Language']);
+  $data = $conn->query("INSERT INTO registrations(name, contacts, notify, anonymous, news, lang) VALUES($name, $contacts, $notify, $anonymous, $news, $lang)");
 
   if (!$data) {
-    Flight::json(['status' => 'error', 'error' => 'query_failed', 'query' => $query]);
+    Flight::json(['status' => 'error', 'error' => 'query_failed']);
   } else {
     Flight::json(['status' => 'ok', 'data' => intval($conn->lastInsertId())]);
   }
