@@ -6,18 +6,26 @@
   <meta http-equiv="Expires" content="-1">
   <meta name="viewport" content="width=device-width" id="viewport" />
   <title>Осенний риичи-блиц 2016</title>
-  <link rel="stylesheet" type="text/css" href="../main.css?version=1">
+  <link rel="stylesheet" type="text/css" href="../main.css?version=2">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <script src="../main.js?version=1"></script>
+  <script src="../main.js?version=2"></script>
 </head>
 
 <body>
 
-  
-  <div class="com reg ann" style="display: inline-block;">
-  
+
+  <div class="com reg ann wait playp playa pause end" style="display: inline-block;">
+
   <h1 class="com">Осенний риичи-блиц 2016</h1>
- 
+
+  <div class="wait"><h3>Ожидаем начала турнира</h3></div>
+  <div class="playp"><h3>Идёт запуск столов, не покидайте лобби</h3></div>
+  <div class="playa"><h3>Идут игры текущего тура</h3></div>
+  <div class="pause"><h3>Перерыв</h3></div>
+  <div class="end"><h3>Турнир закончен</h3></div>
+
+  <p class="end">До встречи на Зимнем риичи-блице 25 февраля!</p>
+
   <div class="reg ann">
     <p class="rules reg ann">четыре ханчана, три акадоры, танъяо можно открывать</p>
     <p class="date reg ann">26 ноября</p>
@@ -41,11 +49,11 @@
     <p class="prize reg ann">выигрыш можно удвоить, подробности в регламенте (пункт 5.03.2)</p>
   </div>
 
-  <p class="com reg ann"><a href="reglament.html">Полный регламент</a></p>
+  <p class="com reg ann wait playp playa pause end"><a href="reglament.html">Полный регламент</a></p>
   <p class="ann">Регистрация будет открыта 26 октября!<br/></p>
-  
+
   <p class="reg"><a class="button" id="open_form">Подать заявку</a></p>
-  
+
   <div class="register_form">
     <label>Ник на tenhou.net:</label><br/>
     <input type="text" id="tenhou_nick"/><br/>
@@ -56,22 +64,45 @@
     <label class="checkbox_label"><input type="checkbox" id="news" checked/> сообщить мне об открытии регистрации на следующий турнир</label><br/>
     <p class="button" id = "submit_form">Отправить заявку</p><br/>
   </div>
-  
-  
+
+
   <p class="reg_message_ok">Заявка успешна отправлена. Ждём Вас на турнире!</p>
   <p class="reg_message_error">Этот ник уже заявлен. Ждём Вас на турнире!</p>
   <p class="reg_message_network_error">Произошла ошибка. Попробуйте отправить заявку чуть позже.</p>
-  
-  <div class="reg applications">
+
+  <p class="wait pause">Следующий тур начнётся в <a class="time"></a> МСК</p>
+  <p class="wait playp playa pause">Ожидаем игроков в лобби <a class="lobby"></a></p>
+
+  <div class="reg wait pause playp applications">
     <br/>
     <p class="reg applications_title">Подано заявок:</p>
-    <p class="reg applications_count"></p>
-    <p class="reg applicant_names"></p>
+    <p class="wait applications_title">Подтверждено участников:</p>
+    <p class="pause playp applications_title">Отсутствуют в лобби:</p>
+    <p class="reg wait pause playp applications_count"></p>
+    <p class="reg wait pause playp applicant_names"></p>
   </div>
 
   <br/><br/>
 
-  <p class="com reg ann">Что-то пошло не так? <a class="button" id="open_report">Сообщить</a></p>
+  <p class="playp playa pause"><a class="button" id="perform_filter">Показывать только игры игрока:</a><input type="text" id="filter"/></p>
+
+  <p class="end">В таблице: итоговая позиция игрока, его ник, сумма очков и среднее место</p>
+
+  <table class="playp playa pause end info_table results_table">
+  <tbody>
+  </tbody>
+</table>
+
+<p class="playp playa pause end"><a class="button" id="open_replay">Отправить реплей</a></p>
+<p class="replay_message_ok">Реплей успешно отправлен! Скоро он будет добавлен в таблицу результатов.</p>
+<div class="replay_form">
+  <label>Ссылка на реплей:</label><br/>
+  <input type="text" id="replay_url"/><br/>
+  <label class="checkbox_label"><input type="checkbox" id="cheat"/> в игре замечено мошенничество</label><br/>
+  <p class="button" id = "submit_replay">Отправить реплей</p><br/>
+</div>
+
+  <p class="com reg ann wait playp playa pause end">Что-то пошло не так? <a class="button" id="open_report">Сообщить</a></p>
   <p class="report_message_ok">Сообщение успешно отправлено!</p>
   <div class="report_form">
     <label>Представьтесь (не обязательно):</label><br/>
@@ -81,12 +112,12 @@
     <p class="button" id = "submit_report">Отправить сообщение</p><br/>
   </div>
 
-  <div class="com reg ann">
-    <p class="com reg ann">Наша группа Вконтакте: <a href="https://vk.com/riichiblitz">vk.com/riichiblitz<a/></p>
-    <p class="com reg ann">Есть вопросы или пожелания? matteplaysmahjong@gmail.com</p>
+  <div class="com reg ann wait playp playa pause end">
+    <p class="com reg ann wait playp playa pause end">Наша группа Вконтакте: <a href="https://vk.com/riichiblitz">vk.com/riichiblitz<a/></p>
+    <p class="com reg ann wait playp playa pause end">Есть вопросы или пожелания? matteplaysmahjong@gmail.com</p>
   </div>
-  
+
   </div>
-  
+
 </body>
 </html>
