@@ -178,8 +178,19 @@ function updateResults() {
               if (url != null && name != null) html += "<a target=\"_blank\" href=\"http://tenhou.net/0/?log=" + url + "&tw=" + k + "\">";
               html += name == null ? "—" : name;
               if (url != null && name != null) html += "</a>";
-              html+="</td><td>" + (start == null ? "—" : start) + "</td>";
-              html+="</td><td>" + (score == null ? "—" : score) + "</td>";
+
+              html+="</td><td>";
+              if (start == null) {
+                html+="—";
+              } else if (score == null) {
+                html+="<font color=\"#909090\">" + start + "</font>";
+              } else {
+                html+=score;
+              }
+              html+="</td>";
+
+              //html+="</td><td>" + (start == null ? "—" : start) + "</td>";
+              //html+="</td><td>" + (score == null ? "—" : score) + "</td>";
               html+="</tr>";
             }
           }
