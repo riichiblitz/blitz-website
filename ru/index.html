@@ -50,6 +50,8 @@
   </div>
 
   <p class="com reg ann wait playp playa pause end"><a href="reglament.html">Полный регламент</a></p>
+  <p class="end"><a href="results.html">Все игры турнира</a></p>
+  <p class="playp playa pause"><a href="totals.html">Предварительные результаты турнира</a></p>
   <p class="ann">Регистрация будет открыта 26 октября!<br/></p>
 
   <p class="reg"><a class="button" id="open_form">Подать заявку</a></p>
@@ -82,7 +84,17 @@
     <p class="reg wait pause playp applicant_names"></p>
   </div>
 
-  <br/><br/>
+  <div class="reg ann wait playp playa pause"><br/><br/></div>
+  
+  
+<p class="playp playa pause"><a class="button" id="open_replay">Отправить реплей</a></p>
+<p class="replay_message_ok">Реплей успешно отправлен! Скоро он будет добавлен в таблицу результатов.</p>
+<div class="replay_form">
+  <label>Ссылка на реплей:</label><br/>
+  <input type="text" id="replay_url"/><br/>
+  <label class="checkbox_label"><input type="checkbox" id="cheat"/> в игре замечено мошенничество</label><br/>
+  <p class="button" id = "submit_replay">Отправить реплей</p><br/>
+</div>
 
   <p class="playp playa pause"><a class="button" id="perform_filter">Показывать только игры игрока:</a><input type="text" id="filter"/></p>
 
@@ -93,14 +105,6 @@
   </tbody>
 </table>
 
-<p class="playp playa pause end"><a class="button" id="open_replay">Отправить реплей</a></p>
-<p class="replay_message_ok">Реплей успешно отправлен! Скоро он будет добавлен в таблицу результатов.</p>
-<div class="replay_form">
-  <label>Ссылка на реплей:</label><br/>
-  <input type="text" id="replay_url"/><br/>
-  <label class="checkbox_label"><input type="checkbox" id="cheat"/> в игре замечено мошенничество</label><br/>
-  <p class="button" id = "submit_replay">Отправить реплей</p><br/>
-</div>
 
   <p class="com reg ann wait playp playa pause end">Что-то пошло не так? <a class="button" id="open_report">Сообщить</a></p>
   <p class="report_message_ok">Сообщение успешно отправлено!</p>
