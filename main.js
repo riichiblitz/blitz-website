@@ -172,7 +172,7 @@ function updateResults() {
               var url = data.data.replays[round] != null ? data.data.replays[round][board] : null;
               html+="<tr>";
               if (k == 0) {
-                html+="<td rowspan=\"4\">" + (counter / playerPerTable + 1) + "</td>";
+                html+="<td rowspan=\"4\">" + board + "</td>";
               }
               html+="<td>"+winds[k]+"</td><td>";
               if (url != null && name != null) html += "<a target=\"_blank\" href=\"http://tenhou.net/0/?log=" + url + "&tw=" + k + "\">";
