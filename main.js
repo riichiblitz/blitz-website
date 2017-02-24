@@ -27,7 +27,7 @@ var status = "";
 var lobby = "-";
 var nextTime = 0;
 var round = 0;
-var knownStatuses = ["announce", "registration"]; //, "wait", "playpart", "playall", "pause", "end"
+var knownStatuses = ["announce", "registration", "wait", "playpart", "playall", "pause", "end"]; //
 
 var winds = ["東", "南", "西", "北"];
 var tours = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
