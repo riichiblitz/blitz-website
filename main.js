@@ -309,7 +309,15 @@ function updateViewport() {
 function apply() {
 	$.ajax({
 		type: "POST",
-		data: JSON.stringify({ name: $('#tenhou_nick').val(), contacts: $('#contacts').val(), notify: $('#notify').is(':checked') ? 1 : 0, anonymous: $('#anonymous').is(':checked') ? 1 : 0, news: $('#news').is(':checked') ? 1 : 0 }),
+		data: JSON.stringify({
+			name: $('#tenhou_nick').val(),
+			contacts: $('#contacts').val(),
+			notify: $('#notify').is(':checked') ? 1 : 0,
+			anonymous: $('#anonymous').is(':checked') ? 1 : 0,
+			news: $('#news').is(':checked') ? 1 : 0,
+			discordName: $('#discord_check').is(':checked') ? $('#discordName').val() : null,
+			discriminator: $('#discord_check').is(':checked') ? $('#discriminator').val() : null,
+			offline: $('#offline_check').is(':checked') ? $('#offline').val() : null}),
 		url: "../api/apply"
 	}).done(function(data) {
 		$(".reg_message_network_error").hide(500);
@@ -373,6 +381,7 @@ function formatTime(time) {
 
 $(document).ready(function() {
 	$("div:not(.com) , p:not(.com) , table:not(.com)").hide(0);
+	$(".discord_ , .offline_").hide(0);
 
 	$("#open_form").click(function(){
 		$("#open_form").hide(500);
@@ -392,6 +401,22 @@ $(document).ready(function() {
 		$("#open_replay").hide(500);
 		$(".replay_form").show(500);
 		$("#submit_replay").show(500);
+	});
+	
+	$("#discord_check").click(function(){
+	    if ($('#discord_check').is(':checked')) {
+			$(".discord_ ").show(500);
+		} else {
+			$(".discord_ ").hide(500);
+		}
+	});
+	
+	$("#offline_check").click(function(){
+	    if ($('#offline_check').is(':checked')) {
+			$(".offline_ ").show(500);
+		} else {
+			$(".offline_ ").hide(500);
+		}
 	});
 
 	$("#submit_form").click(apply);
