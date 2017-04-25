@@ -112,7 +112,6 @@ Flight::route('GET /api/registrations', function() {
     }
   }
 });
-});
 
 Flight::route('GET /api/confirmed', function() {
   $conn = Flight::db();
