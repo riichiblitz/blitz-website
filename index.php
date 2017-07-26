@@ -9,6 +9,7 @@ $dbport = getenv('OPENSHIFT_MYSQL_DB_PORT');
 $dbusername = getenv('OPENSHIFT_MYSQL_DB_USERNAME');
 $dbpassword = getenv('OPENSHIFT_MYSQL_DB_PASSWORD');
 $db_name = getenv('OPENSHIFT_GEAR_NAME');
+$secret_token = getenv('OPENSHIFT_SECRET_TOKEN');
 
 $player_per_table = 4;
 $max_rounds = 4;
@@ -46,14 +47,14 @@ Flight::route('GET /api/status', function() {
 });
 
 function isForbidden2($params) {
-  if (!isset($params['payload']) || $params['payload'] !== 'matte_is_the_greatest') {
+  if (!isset($params['payload']) || $params['payload'] !== $secret_token) {
     return true;
   }
   return false;
 }
 
 function isForbidden($params) {
-  if (!isset($params['payload']) || $params['payload'] !== 'matte_is_the_greatest') {
+  if (!isset($params['payload']) || $params['payload'] !== $secret_token) {
     Flight::json(['status' => 'error', 'error' => 'forbidden']);
     return true;
   }
