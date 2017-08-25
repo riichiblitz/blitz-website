@@ -47,6 +47,7 @@ Flight::route('GET /api/status', function() {
 });
 
 function isForbidden2($params) {
+  global $secret_token;
   if (!isset($params['payload']) || $params['payload'] !== $secret_token) {
     return true;
   }
@@ -54,6 +55,7 @@ function isForbidden2($params) {
 }
 
 function isForbidden($params) {
+  global $secret_token;
   if (!isset($params['payload']) || $params['payload'] !== $secret_token) {
     Flight::json(['status' => 'error', 'error' => 'forbidden']);
     return true;
