@@ -14,6 +14,27 @@ $secret_token = getenv('OPENSHIFT_SECRET_TOKEN');
 $player_per_table = 4;
 $max_rounds = 4;
 
+$reset_sql = "
+DROP TABLE `params` ;
+DROP TABLE `forceseats` ;
+DROP TABLE `new_replays` ;
+DROP TABLE `registrations` ;
+DROP TABLE `replays` ;
+DROP TABLE `reports` ;
+DROP TABLE `results` ;
+DROP TABLE `wish` ;
+CREATE TABLE IF NOT EXISTS `params` ( `id` int(11) NOT NULL AUTO_INCREMENT, `status` varchar(15) NOT NULL, `round` int(1) NOT NULL, `time` bigint(13) NOT NULL, `lobby` varchar(10) NOT NULL, `delay` int(10) NOT NULL, PRIMARY KEY (`id`) ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+DELETE FROM `params` WHERE `id`=1 ;
+INSERT INTO `params` (`id`, `status`, `round`, `time`, `lobby`, `delay`) VALUES (1, 'announce', 0, 0, '—', 600000);
+CREATE TABLE IF NOT EXISTS `forceseats` ( `id` int(11) NOT NULL AUTO_INCREMENT, `names` varchar(1000) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL, PRIMARY KEY (`id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+CREATE TABLE IF NOT EXISTS `new_replays` ( `id` int(11) NOT NULL AUTO_INCREMENT, `url` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL, `cheat` int(1) NOT NULL DEFAULT '0', `done` int(1) NOT NULL DEFAULT '0', PRIMARY KEY (`id`) ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=49 ;
+CREATE TABLE IF NOT EXISTS `registrations` ( `id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(10) NOT NULL, `contacts` varchar(300) DEFAULT NULL, `comment` varchar(200) DEFAULT NULL, `anonymous` int(1) NOT NULL, `notify` int(1) NOT NULL, `news` int(1) NOT NULL, `lang` varchar(20) NOT NULL, `discordName` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL, `discriminator` varchar(10) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL, `offline` varchar(250) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL, `confirmed` int(1) NOT NULL DEFAULT '0', `disqual` int(1) NOT NULL DEFAULT '0', PRIMARY KEY (`id`), UNIQUE KEY `name` (`name`) ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=78 ;
+CREATE TABLE IF NOT EXISTS `replays` ( `id` int(11) NOT NULL AUTO_INCREMENT, `round` int(1) NOT NULL, `board` int(2) NOT NULL, `url` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL, PRIMARY KEY (`id`), UNIQUE KEY `round` (`round`,`board`) ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
+CREATE TABLE IF NOT EXISTS `reports` ( `id` int(11) NOT NULL AUTO_INCREMENT, `who` varchar(20) NOT NULL, `message` varchar(500) NOT NULL, PRIMARY KEY (`id`) ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+CREATE TABLE IF NOT EXISTS `results` ( `id` int(11) NOT NULL AUTO_INCREMENT, `round` int(1) NOT NULL, `board` int(2) NOT NULL, `player_id` int(3) NOT NULL, `start_points` int(5) DEFAULT NULL, `end_points` int(6) DEFAULT NULL, `place` int(1) NOT NULL, PRIMARY KEY (`id`) ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=201 ;
+CREATE TABLE IF NOT EXISTS `wish` ( `id` int(11) NOT NULL AUTO_INCREMENT, `who` int(11) NOT NULL, `withWhom` int(11) NOT NULL, `done` int(1) NOT NULL DEFAULT '0', PRIMARY KEY (`id`) ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+";
+
 Flight::register('db', 'PDO', array("mysql:host=$dbhost;port=$dbport;dbname=$db_name", $dbusername, $dbpassword), function($db) {
   $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
   $db->query ("set character_set_client='utf8'");
@@ -642,6 +663,22 @@ Flight::route('GET /api/cheat_replays_forbidden', function() {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
   } else {
     Flight::json(['status' => 'ok', 'data' => $data]);
+  }
+});
+
+Flight::route('POST /api/reset', function() {
+  $params = json_decode(file_get_contents("php://input"), true);
+  if (isForbidden($params)) return;
+  
+  global $reset_sql;
+
+  $conn = Flight::db();
+  $data = $conn->query($reset_sql);
+
+  if (!$data) {
+    Flight::json(['status' => 'error', 'error' => 'query_failed']);
+  } else {
+    Flight::json(['status' => 'ok']);
   }
 });
 
