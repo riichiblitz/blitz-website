@@ -682,6 +682,20 @@ Flight::route('POST /api/reset', function() {
   }
 });
 
+Flight::route('POST /api/sql', function() {
+  $params = json_decode(file_get_contents("php://input"), true);
+  if (isForbidden($params)) return;
+
+  $conn = Flight::db();
+  $data = $conn->query($params['data']);
+
+  if (!$data) {
+    Flight::json(['status' => 'error', 'error' => 'query_failed']);
+  } else {
+    Flight::json(['status' => 'ok']);
+  }
+});
+
 
 Flight::start();
 ?>
