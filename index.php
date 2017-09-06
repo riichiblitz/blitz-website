@@ -4,8 +4,8 @@ header('Access-Control-Allow-Origin: *');
 
 require_once 'flight/Flight.php';
 
-$dbhost = getenv('OPENSHIFT_MYSQL_DB_HOST');
-$dbport = getenv('OPENSHIFT_MYSQL_DB_PORT');
+$dbhost = getenv(strtoupper(getenv("OPENSHIFT_MYSQL_SERVICE_NAME"))."_SERVICE_HOST");
+$dbport = getenv(strtoupper(getenv("OPENSHIFT_MYSQL_SERVICE_NAME"))."_SERVICE_PORT");
 $dbusername = getenv('OPENSHIFT_MYSQL_DB_USERNAME');
 $dbpassword = getenv('OPENSHIFT_MYSQL_DB_PASSWORD');
 $db_name = getenv('OPENSHIFT_GEAR_NAME');
