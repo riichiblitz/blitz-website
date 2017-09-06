@@ -15,14 +15,14 @@ $player_per_table = 4;
 $max_rounds = 4;
 
 $reset_sql = "
-DROP TABLE `params` ;
-DROP TABLE `forceseats` ;
-DROP TABLE `new_replays` ;
-DROP TABLE `registrations` ;
-DROP TABLE `replays` ;
-DROP TABLE `reports` ;
-DROP TABLE `results` ;
-DROP TABLE `wish` ;
+DROP TABLE IF EXISTS `params` ;
+DROP TABLE IF EXISTS `forceseats` ;
+DROP TABLE IF EXISTS `new_replays` ;
+DROP TABLE IF EXISTS `registrations` ;
+DROP TABLE IF EXISTS `replays` ;
+DROP TABLE IF EXISTS `reports` ;
+DROP TABLE IF EXISTS `results` ;
+DROP TABLE IF EXISTS `wish` ;
 CREATE TABLE IF NOT EXISTS `params` ( `id` int(11) NOT NULL AUTO_INCREMENT, `status` varchar(15) NOT NULL, `round` int(1) NOT NULL, `time` bigint(13) NOT NULL, `lobby` varchar(10) NOT NULL, `delay` int(10) NOT NULL, PRIMARY KEY (`id`) ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 DELETE FROM `params` WHERE `id`=1 ;
 INSERT INTO `params` (`id`, `status`, `round`, `time`, `lobby`, `delay`) VALUES (1, 'announce', 0, 0, '—', 600000);
