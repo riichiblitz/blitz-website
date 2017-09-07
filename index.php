@@ -59,7 +59,7 @@ Flight::route('GET /api/language', function() {
 Flight::route('GET /api/status', function() {
   global $prefix;
   $conn = Flight::db();
-  $data = $conn->query("SELECT status, round, time, lobby, delay FROM $prefix-params WHERE id=1");
+  $data = $conn->query("SELECT status, round, time, lobby, delay FROM `$prefix-params` WHERE id=1");
 
   if (!$data) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
@@ -115,7 +115,7 @@ Flight::route('POST /api/status', function() {
   $updates = append($params, 'round', $updates);
   $updates = append($params, 'delay', $updates);
   $set = implode($updates, ',');
-  $data = Flight::db()->query("UPDATE $prefix-params SET $set WHERE id=1");
+  $data = Flight::db()->query("UPDATE `$prefix-params` SET $set WHERE id=1");
 
   if (!$data) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
@@ -127,12 +127,12 @@ Flight::route('POST /api/status', function() {
 Flight::route('GET /api/registrations', function() {
   global $prefix;
   $conn = Flight::db();
-  $data = $conn->query("SELECT name, discordName, discriminator FROM $prefix-registrations WHERE anonymous=0");
+  $data = $conn->query("SELECT name, discordName, discriminator FROM `$prefix-registrations` WHERE anonymous=0");
 
   if (!$data) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
   } else {
-    $count = $conn->query("SELECT COUNT(*) as count FROM $prefix-registrations");
+    $count = $conn->query("SELECT COUNT(*) as count FROM `$prefix-registrations`");
     if (!$count) {
       Flight::json(['status' => 'error', 'error' => 'query_failed']);
     } else {
@@ -145,7 +145,7 @@ Flight::route('GET /api/registrations', function() {
 Flight::route('GET /api/confirmed', function() {
   global $prefix;
   $conn = Flight::db();
-  $data = $conn->query("SELECT name FROM $prefix-registrations WHERE confirmed=1 AND disqual=0");
+  $data = $conn->query("SELECT name FROM `$prefix-registrations` WHERE confirmed=1 AND disqual=0");
 
   if (!$data) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
@@ -160,7 +160,7 @@ Flight::route('POST /api/confirmed', function() {
   $params = json_decode(file_get_contents("php://input"), true);
   if (isForbidden($params)) return;
   $conn = Flight::db();
-  $data = $conn->query("SELECT id, name FROM $prefix-registrations WHERE confirmed=1 AND disqual=0");
+  $data = $conn->query("SELECT id, name FROM `$prefix-registrations` WHERE confirmed=1 AND disqual=0");
 
   if (!$data) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
@@ -173,7 +173,7 @@ Flight::route('POST /api/confirmed', function() {
 Flight::route('GET /api/unconfirmed', function() {
   global $prefix;
   $conn = Flight::db();
-  $data = $conn->query("SELECT name FROM $prefix-registrations WHERE confirmed=0 AND disqual=0");
+  $data = $conn->query("SELECT name FROM `$prefix-registrations` WHERE confirmed=0 AND disqual=0");
 
   if (!$data) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
@@ -189,7 +189,7 @@ Flight::route('POST /api/unconfirmed', function() {
   $params = json_decode(file_get_contents("php://input"), true);
   if (isForbidden($params)) return;
   $conn = Flight::db();
-  $data = $conn->query("SELECT id, name FROM $prefix-registrations WHERE confirmed=0 AND disqual=0");
+  $data = $conn->query("SELECT id, name FROM `$prefix-registrations` WHERE confirmed=0 AND disqual=0");
 
   if (!$data) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
@@ -207,7 +207,7 @@ Flight::route('POST /api/wish', function() {
   $who = $params['who'];
   $withWhom = $params['withWhom'];
   $conn = Flight::db();
-  $data = $conn->query("INSERT INTO $prefix-wish(who, withWhom) VALUES ($who, $withWhom)");
+  $data = $conn->query("INSERT INTO `$prefix-wish`(who, withWhom) VALUES ($who, $withWhom)");
 
   if (!$data) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
@@ -221,7 +221,7 @@ Flight::route('POST /api/remove_wishes', function() {
   $params = json_decode(file_get_contents("php://input"), true);
   if (isForbidden($params)) return;
   $conn = Flight::db();
-  $data = $conn->query("UPDATE $prefix-wish SET done=1");
+  $data = $conn->query("UPDATE `$prefix-wish` SET done=1");
 
   if (!$data) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
@@ -235,11 +235,11 @@ Flight::route('POST /api/initial_state', function() {
   $params = json_decode(file_get_contents("php://input"), true);
   if (isForbidden($params)) return;
   $conn = Flight::db();
-  $playersData = $conn->query("SELECT $prefix-registrations.id as id, name, discordName, discriminator, offline, SUM(place) as placeSum FROM $prefix-registrations LEFT JOIN $prefix-results ON $prefix-registrations.id=$prefix-results.player_id WHERE confirmed=1 GROUP BY id");
-  $gamesData = $conn->query("SELECT id, round, board, player_id FROM $prefix-results");
-  $wishData = $conn->query("SELECT id, who, withWhom, done FROM $prefix-wish");
-  $status = $conn->query("SELECT status, round, time, lobby, delay FROM $prefix-params WHERE id=1");
-  $force = $conn->query("SELECT names FROM $prefix-forceseats");
+  $playersData = $conn->query("SELECT `$prefix-registrations`.id as id, name, discordName, discriminator, offline, SUM(place) as placeSum FROM `$prefix-registrations` LEFT JOIN `$prefix-results` ON `$prefix-registrations`.id=$prefix-results.player_id WHERE confirmed=1 GROUP BY id");
+  $gamesData = $conn->query("SELECT id, round, board, player_id FROM `$prefix-results`");
+  $wishData = $conn->query("SELECT id, who, withWhom, done FROM `$prefix-wish`");
+  $status = $conn->query("SELECT status, round, time, lobby, delay FROM `$prefix-params` WHERE id=1");
+  $force = $conn->query("SELECT names FROM `$prefix-forceseats`");
 
   if (!$playersData || !$gamesData || !$wishData || !$status || !$force) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
@@ -257,7 +257,7 @@ Flight::route('POST /api/unstarted', function() {
   $params = json_decode(file_get_contents("php://input"), true);
   if (isForbidden($params)) return;
   $conn = Flight::db();
-  $data = $conn->query("SELECT id, round, board, player_id FROM $prefix-results WHERE start_points=NULL");
+  $data = $conn->query("SELECT id, round, board, player_id FROM `$prefix-results` WHERE start_points=NULL");
 
   if (!$playersData) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
@@ -272,7 +272,7 @@ Flight::route('POST /api/players', function() {
   if (isForbidden($params)) return;
 
   $conn = Flight::db();
-  $data = $conn->query("SELECT id, name FROM $prefix-registrations");
+  $data = $conn->query("SELECT id, name FROM `$prefix-registrations`");
 
   if (!$data) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
@@ -287,7 +287,7 @@ Flight::route('POST /api/autodisqual', function() {
   if (isForbidden($params)) return;
 
   $conn = Flight::db();
-  $data = $conn->query("UPDATE $prefix-registrations SET disqual=1 WHERE confirmed=0");
+  $data = $conn->query("UPDATE `$prefix-registrations` SET disqual=1 WHERE confirmed=0");
 
   if (!$data) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
@@ -303,7 +303,7 @@ Flight::route('POST /api/autodisqualpending', function() {
 
   $conn = Flight::db();
   $round = $params['data'];
-  $data = $conn->query("UPDATE $prefix-registrations SET disqual=1 WHERE confirmed=0; UPDATE $prefix-results SET player_id=0 WHERE round=$round AND player_id IN (SELECT id FROM $prefix-registrations WHERE disqual=1);");
+  $data = $conn->query("UPDATE `$prefix-registrations` SET disqual=1 WHERE confirmed=0; UPDATE `$prefix-results` SET player_id=0 WHERE round=$round AND player_id IN (SELECT id FROM `$prefix-registrations` WHERE disqual=1);");
 
   if (!$data) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
@@ -318,7 +318,7 @@ Flight::route('POST /api/autounconfirm', function() {
   if (isForbidden($params)) return;
 
   $conn = Flight::db();
-  $data = $conn->query("UPDATE $prefix-registrations SET confirmed=0");
+  $data = $conn->query("UPDATE `$prefix-registrations` SET confirmed=0");
 
   if (!$data) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
@@ -330,14 +330,14 @@ Flight::route('POST /api/autounconfirm', function() {
 Flight::route('GET /api/results', function() {
   global $prefix;
   $conn = Flight::db();
-  $data = $conn->query("SELECT round, board, $prefix-registrations.name, start_points, end_points FROM $prefix-results LEFT JOIN $prefix-registrations ON $prefix-registrations.id=$prefix-results.player_id ORDER BY $prefix-results.id ASC");
+  $data = $conn->query("SELECT round, board, `$prefix-registrations`.name, start_points, end_points FROM `$prefix-results` LEFT JOIN `$prefix-registrations` ON `$prefix-registrations`.id=$prefix-results.player_id ORDER BY `$prefix-results`.id ASC");
 
   if (!$data) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
   } else {
     $results = array_map(function($item) { return [$item->round, $item->board, $item->name, $item->start_points, $item->end_points]; }, $data->fetchAll());
 
-    $data = $conn->query("SELECT round, board, url FROM $prefix-replays");
+    $data = $conn->query("SELECT round, board, url FROM `$prefix-replays`");
 
     if (!$data) {
       Flight::json(['status' => 'error', 'error' => 'query_failed']);
@@ -356,7 +356,7 @@ Flight::route('GET /api/results', function() {
 Flight::route('GET /api/results/@round:[0-9]+', function($round) {
   global $prefix;
   $conn = Flight::db();
-  $data = $conn->query("SELECT $prefix-registrations.name, start_points, end_points FROM $prefix-results LEFT JOIN $prefix-registrations ON $prefix-registrations.id=$prefix-results.player_id WHERE round=$round ORDER BY $prefix-results.id ASC");
+  $data = $conn->query("SELECT `$prefix-registrations`.name, start_points, end_points FROM `$prefix-results` LEFT JOIN `$prefix-registrations` ON `$prefix-registrations`.id=$prefix-results.player_id WHERE round=$round ORDER BY `$prefix-results`.id ASC");
 
   if (!$data) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
@@ -382,7 +382,7 @@ Flight::route('POST /api/confirm', function() {
     }
 
     $conn = Flight::db();
-    $sql = "UPDATE $prefix-registrations SET confirmed=1 WHERE ".implode(' OR ', $values).";";
+    $sql = "UPDATE `$prefix-registrations` SET confirmed=1 WHERE ".implode(' OR ', $values).";";
     $data = $conn->query($sql);
 
     if (!$data) {
@@ -409,7 +409,7 @@ Flight::route('POST /api/unconfirm', function() {
   }
 
   $conn = Flight::db();
-  $sql = "UPDATE $prefix-registrations SET confirmed=0 WHERE ".implode(' OR ', $values);
+  $sql = "UPDATE `$prefix-registrations` SET confirmed=0 WHERE ".implode(' OR ', $values);
   $data = $conn->query($sql);
 
   if (!$data) {
@@ -437,7 +437,7 @@ Flight::route('POST /api/start', function() {
   }
 
   $conn = Flight::db();
-  $sql = "UPDATE $prefix-registrations SET disqual=1 WHERE confirmed=0; INSERT INTO $prefix-results(round, board, player_id, start_points) VALUES ".implode(',', $values);
+  $sql = "UPDATE `$prefix-registrations` SET disqual=1 WHERE confirmed=0; INSERT INTO `$prefix-results`(round, board, player_id, start_points) VALUES ".implode(',', $values);
   $data = $conn->query($sql);
 
   if (!$data) {
@@ -462,12 +462,12 @@ Flight::route('POST /api/start_last', function() {
     $board = $entity['board'];
     $playerId = $entity['player_id'];
     $startPoints = isset($entity['start_points']) ? $entity['start_points'] : 'NULL';
-    $queryPart[] = "UPDATE $prefix-results SET start_points=$startPoints WHERE round=$round AND player_id=$playerId";
+    $queryPart[] = "UPDATE `$prefix-results` SET start_points=$startPoints WHERE round=$round AND player_id=$playerId";
     $confirmPart[] = "id=$playerId";
   }
 
   $conn = Flight::db();
-  $sql = "UPDATE $prefix-registrations SET confirmed=1 WHERE ".implode(" OR ", $confirmPart).";".implode('; ', $queryPart).";";
+  $sql = "UPDATE `$prefix-registrations` SET confirmed=1 WHERE ".implode(" OR ", $confirmPart).";".implode('; ', $queryPart).";";
   $data = $conn->query($sql);
 
   if (!$data) {
@@ -491,7 +491,7 @@ Flight::route('POST /api/result', function() {
     $playerId = $entity['player_id'];
     $endPoints = isset($entity['end_points']) ? $entity['end_points'] : 'NULL';
     $place = isset($entity['place']) ? $entity['place'] : 'NULL';
-    $queryPart[] = "UPDATE $prefix-results SET end_points=$endPoints,place=$place WHERE round=$round AND player_id=$playerId";
+    $queryPart[] = "UPDATE `$prefix-results` SET end_points=$endPoints,place=$place WHERE round=$round AND player_id=$playerId";
   }
 
   $conn = Flight::db();
@@ -508,7 +508,7 @@ Flight::route('POST /api/result', function() {
 Flight::route('GET /api/totals', function() {
   global $prefix;
   $conn = Flight::db();
-  $data = $conn->query("SELECT name, SUM(end_points) as score, AVG(place) as place FROM $prefix-registrations LEFT JOIN $prefix-results ON $prefix-registrations.id=$prefix-results.player_id WHERE disqual=0 GROUP BY $prefix-registrations.id ORDER BY score DESC");
+  $data = $conn->query("SELECT name, SUM(end_points) as score, AVG(place) as place FROM `$prefix-registrations` LEFT JOIN `$prefix-results` ON `$prefix-registrations`.id=$prefix-results.player_id WHERE disqual=0 GROUP BY `$prefix-registrations`.id ORDER BY score DESC");
   if (!$data) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
   } else {
@@ -533,7 +533,7 @@ Flight::route('POST /api/apply', function() {
   $discriminator = quote($params['discriminator']);
   $offline = quote($params['offline']);
   $lang = quote(getallheaders()['Accept-Language']);
-  $data = $conn->query("INSERT INTO $prefix-registrations(name, contacts, notify, anonymous, discordName, discriminator, offline, news, lang) VALUES($name, $contacts, $notify, $anonymous, $discordName, $discriminator, $offline, $news, $lang)");
+  $data = $conn->query("INSERT INTO `$prefix-registrations`(name, contacts, notify, anonymous, discordName, discriminator, offline, news, lang) VALUES($name, $contacts, $notify, $anonymous, $discordName, $discriminator, $offline, $news, $lang)");
 
   if (!$data) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
@@ -551,7 +551,7 @@ Flight::route('POST /api/report', function() {
   $who = quote($params['name']);
   $message = quote($params['message']);
 
-  $data = $conn->query("INSERT INTO $prefix-reports(who, message) VALUES($who, $message)");
+  $data = $conn->query("INSERT INTO `$prefix-reports`(who, message) VALUES($who, $message)");
 
   if (!$data) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
@@ -569,7 +569,7 @@ Flight::route('POST /api/replay', function() {
     $url = quote($params['url']);
     $cheat = $params['cheat'];
 
-    $data = $conn->query("INSERT INTO $prefix-new_replays(url, cheat) VALUES($url, $cheat)");
+    $data = $conn->query("INSERT INTO `$prefix-new_replays`(url, cheat) VALUES($url, $cheat)");
 
     if (!$data) {
       Flight::json(['status' => 'error', 'error' => 'query_failed']);
@@ -581,7 +581,7 @@ Flight::route('POST /api/replay', function() {
     $round = $params['round'];
     $board = $params['board'];
 
-    $data = Flight::db()->query("INSERT INTO $prefix-replays(round,board,url) VALUES ($round,$board,$url)");
+    $data = Flight::db()->query("INSERT INTO `$prefix-replays`(round,board,url) VALUES ($round,$board,$url)");
 
     if (!$data) {
       Flight::json(['status' => 'error', 'error' => 'query_failed']);
@@ -594,7 +594,7 @@ Flight::route('POST /api/replay', function() {
 Flight::route('GET /api/replays', function() {
   global $prefix;
   $conn = Flight::db();
-  $data = $conn->query("SELECT url FROM $prefix-replays");
+  $data = $conn->query("SELECT url FROM `$prefix-replays`");
 
   if (!$data) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
@@ -610,12 +610,12 @@ Flight::route('POST /api/new_replays', function() {
   if (isForbidden($params)) return;
 
   $conn = Flight::db();
-  $data = $conn->query("SELECT * FROM $prefix-new_replays WHERE done=0");
+  $data = $conn->query("SELECT * FROM `$prefix-new_replays` WHERE done=0");
 
   if (!$data) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
   } else {
-    $conn->query("UPDATE $prefix-new_replays SET done=1");
+    $conn->query("UPDATE `$prefix-new_replays` SET done=1");
     Flight::json(['status' => 'ok', 'data' => $data->fetchAll()]);
   }
 });
@@ -630,7 +630,7 @@ Flight::route('GET /api/cheat_replays_forbidden', function() {
   $who = quote($params['name']);
   $message = quote($params['message']);
 
-  $data = $conn->query("SELECT * FROM $prefix-new_replays WHERE cheat=1");
+  $data = $conn->query("SELECT * FROM `$prefix-new_replays` WHERE cheat=1");
 
   if (!$data) {
     Flight::json(['status' => 'error', 'error' => 'query_failed']);
