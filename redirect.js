@@ -1,6 +1,10 @@
 var delays = [1000, 3000, 5000];
 var retries = 0;
 
+function hardReload() {
+	location.reload(true);
+}
+
 function poll() {
 	$('.message').text("");
 	$.ajax({
@@ -14,7 +18,8 @@ function poll() {
     }).fail(function() {
 		if (retries > 0) {
 			if (retries == delays.length) {
-				$('.message').append(" <br>No more retries. Please try again later.");
+				$('.message').append(" <br>No more retries. Will try again in 3 seconds.");
+				setTimeout(hardReload, 3000);
 			    return;
 			}
 			$('.message').append(" Retrying...");
