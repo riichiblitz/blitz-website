@@ -98,7 +98,7 @@ function updateApplications() {
 				data.data.names.forEach(function(item, i, arr) {
 					$('.applicant_names').append(item[0]);
 					if (item[1] == 1) {
-						$('.applicant_names').append('♪~');
+						$('.applicant_names').append('♪');
 					}
 					if (i < arr.length - 1) {
 						$('.applicant_names').append(' ');
