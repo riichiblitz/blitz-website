@@ -1,3 +1,7 @@
+html * {
+	font-family: Verdana,Cambria,serif;
+}
+
 .info_table {
 	width:auto;
 	table-layout:fixed;
