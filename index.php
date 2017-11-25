@@ -296,7 +296,7 @@ Flight::route('POST /api/initial_state', function() {
     $forceSeats = [];
     foreach ($force->fetchAll() as $item) {
       $forceSeats[] = $item->names;
-    } 
+    }
     Flight::json(['status' => 'ok','data' => ['status' => $status->fetch(), 'players' => $playersData->fetchAll(), 'games' => $gamesData->fetchAll(), 'wish' => $wishData->fetchAll(), 'force' => $forceSeats]]);
   }
 });
@@ -494,7 +494,7 @@ Flight::route('POST /api/start', function() {
   }
 
   $conn = Flight::db();
-  $sql = "UPDATE `$prefix-registrations` SET disqual=1 WHERE confirmed=0; INSERT INTO `$prefix-results`(round, board, player_id, start_points) VALUES ".implode(',', $values);
+  $sql = "UPDATE `$prefix-registrations` SET disqual=1 WHERE confirmed=0; INSERT INTO `$prefix-results`(round, board, player_id, start_points) VALUES ".implode(',', $values).";";
   $data = $conn->query($sql);
 
   if (!$data) {
@@ -707,7 +707,7 @@ Flight::route('GET /api/cheat_replays_forbidden', function() {
 Flight::route('POST /api/reset', function() {
   $params = json_decode(file_get_contents("php://input"), true);
   if (isForbidden($params)) return;
-  
+
   global $reset_sql;
 
   $conn = Flight::db();
