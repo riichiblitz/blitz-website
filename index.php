@@ -501,7 +501,7 @@ Flight::route('POST /api/start', function() {
 	saveReport("SERVER", $sql);
     Flight::json(['status' => 'error', 'error' => 'query_failed', 'query' => $sql]);
   } else {
-    Flight::json(['status' => 'ok']);
+    Flight::json(['status' => 'ok', 'sql' => $sql]);
   }
 });
 
